@@ -28,7 +28,7 @@ async function bootstrap() {
   if (isntProd) {
     const config = new DocumentBuilder()
       .setTitle('Basic Nestjs API')
-      .setDescription('This is a prototype of a express api using typescript, nestjs, prisma and swagger')
+      .setDescription('This is a prototype of a express api using yarn, typescript, nestjs, prisma and swagger')
       .setVersion(apiVersion)
       .addBearerAuth(
         {
