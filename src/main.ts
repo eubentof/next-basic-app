@@ -10,11 +10,12 @@ dotenv.config();
 export const HASH_SALT = bcrypt.genSaltSync(10);
 
 async function bootstrap() {
-
   if (!process.env.ENVIRONMENT) {
     // tslint:disable-next-line: no-console
-    console.warn('Check your .env file');
-    return
+    console.warn(
+      'Missing informations in .env file \n\nCheck if your .env file matches .env.example ',
+    );
+    return;
   }
 
   const app = await NestFactory.create(AppModule);
@@ -50,7 +51,8 @@ async function bootstrap() {
     const options = {
       swaggerOptions: {
         tagsSorter: (tagA: string, tagB: string) => tagB.localeCompare(tagA),
-        operationsSorter: 'alpha',
+        operationsSorter: (opA: any, opB: any) =>
+          opB.get('path').localeCompare(opA.get('path')),
       },
     };
     SwaggerModule.setup(docs, app, document, options);

@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/strategies/jwt/jwt-auth.guard';
+import { AdministrativeGuard } from './shared/middlewares/administrative/administrative.guard';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -11,6 +12,10 @@ import { UsersModule } from './users/users.module';
   controllers: [AppController],
   providers: [
     AppService,
+    {
+      provide: APP_GUARD,
+      useClass: AdministrativeGuard,
+    },
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,

@@ -15,5 +15,8 @@ export class CreateUserDTO implements Partial<IUserDTO> {
   password: string;
 
   @ApiProperty()
+  admin: number;
+
+  @ApiProperty()
   confirmPassword?: string;
 }

@@ -11,24 +11,27 @@ const prisma = new PrismaClient();
 const defaultPassword = bcrypt.hashSync('123456', HASH_SALT);
 
 async function main() {
+  if (process.env.ENVIRONMENT === 'prod') return;
   // create two dummy users
   const user1 = await prisma.user.upsert({
-    where: { email: 'johndoe@manicard.com' },
+    where: { email: 'johndoe@zumub.com' },
     create: {
       name: 'John Doe',
-      email: 'johndoe@manicard.com',
+      email: 'johndoe@zumub.com',
       username: 'admin',
+      admin: 1,
       password: defaultPassword,
     },
     update: {},
   });
 
   const user2 = await prisma.user.upsert({
-    where: { email: 'johnbar@manicard.com' },
+    where: { email: 'johnbar@zumub.com' },
     create: {
       name: 'John Bar',
-      email: 'johnbar@manicard.com',
-      username: 'admin2',
+      email: 'johnbar@zumub.com',
+      username: 'johnbar',
+      admin: 0,
       password: defaultPassword,
     },
     update: {},

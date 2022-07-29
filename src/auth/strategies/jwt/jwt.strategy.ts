@@ -13,7 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         rotation_type: 'non-rotating',
         expiration_type: 'expiring',
         token_lifetime: 2592000,
-        infinite_token_lifetime:false,
+        infinite_token_lifetime: false,
         idle_token_lifetime: 604800,
         infinite_idle_token_lifetime: false,
       },

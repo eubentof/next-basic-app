@@ -32,7 +32,10 @@ export class AuthService {
   async login(user: any): Promise<PublicUserDTO> {
     const payload = { username: user.username, sub: user.id };
     const accessToken = this.jwtService.sign(payload);
-    const loggedUser = await this.usersService.update(user.id, { accessToken });
+    const loggedUser = await this.usersService.updateAccessToken(
+      user.id,
+      accessToken,
+    );
     return loggedUser;
   }
 }

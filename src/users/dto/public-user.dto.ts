@@ -3,7 +3,7 @@ import { IUserDTO } from './user.dto';
 
 export class PublicUserDTO implements Partial<IUserDTO> {
   @ApiProperty()
-  id: string;
+  id: number;
 
   @ApiProperty()
   email: string;
@@ -13,6 +13,9 @@ export class PublicUserDTO implements Partial<IUserDTO> {
 
   @ApiProperty()
   username: string;
+
+  @ApiProperty()
+  admin: number;
 
   @ApiProperty()
   createdAt: Date;
