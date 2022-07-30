@@ -11,10 +11,11 @@ import {
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { ApiTag } from 'src/shared/enums/api-tags.enum';
+import { Tags } from 'src/shared/enums/api-tags.enum';
 import { Administrative } from 'src/shared/middlewares/administrative/administrative.decorator';
 import { Permissions } from 'src/shared/middlewares/administrative/permissions.enum';
 import { CreateUserDTO } from 'src/users/dto/create-user.dto';
@@ -25,7 +26,7 @@ import { UsersService } from 'src/users/users.service';
 import { ApiPaginatedResponse } from 'src/utils/methods/paginationDecorator';
 
 @Controller('administrative/users')
-@ApiTags(ApiTag.ADMINISTRATIVE)
+@ApiTags(Tags.ADMINISTRATIVE)
 @ApiBearerAuth('accessToken')
 export class AdministrativeUsersController {
   constructor(private usersService: UsersService) {}
@@ -52,7 +53,7 @@ export class AdministrativeUsersController {
 
   @Get(':id')
   @Administrative(Permissions.USER_VIEW)
-  @ApiCreatedResponse({ type: PublicUserDTO })
+  @ApiOkResponse({ type: PublicUserDTO })
   @ApiOperation({ summary: 'Gets a specific user' })
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
@@ -60,7 +61,7 @@ export class AdministrativeUsersController {
 
   @Patch(':id')
   @Administrative(Permissions.USER_UPDATE)
-  @ApiCreatedResponse({ type: PublicUserDTO })
+  @ApiOkResponse({ type: PublicUserDTO })
   @ApiOperation({ summary: 'Updates a specific user' })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDTO) {
     return this.usersService.update(id, updateUserDto);
@@ -69,7 +70,7 @@ export class AdministrativeUsersController {
   @Delete(':id')
   @Administrative(Permissions.USER_DELETE)
   @ApiOperation({ summary: 'Deletes a specific user' })
-  @ApiCreatedResponse({
+  @ApiOkResponse({
     type: Object,
     schema: {
       type: 'object',
