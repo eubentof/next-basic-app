@@ -10,9 +10,9 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "watch": "nest start --watch",
+    "debug": "nest start --debug --watch",
+    "prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -87,7 +87,7 @@
     "testEnvironment": "node"
   },
   "prisma": {
-    "schema": "src/services/infra/prisma/db/schema.prisma",
-    "seed": "ts-node src/services/infra/prisma/db/seed.ts"
+    "schema": "src/shared/infra/prisma/db/schema.prisma",
+    "seed": "ts-node src/shared/infra/prisma/db/seed.ts"
   }
 }

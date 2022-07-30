@@ -27,7 +27,7 @@ export class PrismaUserService implements IUsersService {
     return users;
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const user = await this.prisma.user.findFirst({ where: { id } });
     delete user.password;
     return user;
@@ -48,7 +48,7 @@ export class PrismaUserService implements IUsersService {
     return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDTO) {
+  async update(id: string, updateUserDto: UpdateUserDTO) {
     const user = await this.prisma.user.update({
       where: { id },
       data: updateUserDto,
@@ -60,7 +60,7 @@ export class PrismaUserService implements IUsersService {
     return user;
   }
 
-  async updateAccessToken(id: number, accessToken: string) {
+  async updateAccessToken(id: string, accessToken: string) {
     const user = await this.prisma.user.update({
       where: { id },
       data: { accessToken },
@@ -71,7 +71,7 @@ export class PrismaUserService implements IUsersService {
     return user;
   }
 
-  async destroy(id: number) {
+  async destroy(id: string) {
     const success = await this.prisma.user.delete({ where: { id } });
     return Boolean(success);
   }

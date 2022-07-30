@@ -5,7 +5,7 @@ import { IUserDTO } from 'src/users/dto/user.dto';
 
 export class UserEntity implements User, IUserDTO {
   @ApiProperty()
-  id: number;
+  id: string;
 
   @ApiProperty()
   email: string;

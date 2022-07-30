@@ -52,16 +52,16 @@ export class AdministrativeUsersController {
   @Administrative(Permissions.USER_VIEW)
   @ApiCreatedResponse({ type: PublicUserDTO })
   @ApiOperation({ summary: 'Gets a specific user' })
-  findOne(@Param('id') id: number) {
-    return this.usersService.findOne(+id);
+  findOne(@Param('id') id: string) {
+    return this.usersService.findOne(id);
   }
 
   @Patch(':id')
   @Administrative(Permissions.USER_UPDATE)
   @ApiCreatedResponse({ type: PublicUserDTO })
   @ApiOperation({ summary: 'Updates a specific user' })
-  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDTO) {
-    return this.usersService.update(+id, updateUserDto);
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDTO) {
+    return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
@@ -80,7 +80,7 @@ export class AdministrativeUsersController {
     },
   })
   async remove(@Param('id') id: string) {
-    const success = await this.usersService.destroy(+id);
+    const success = await this.usersService.destroy(id);
     return Boolean({ success });
   }
 }
