@@ -18,7 +18,7 @@ async function main() {
     create: {
       name: 'John Doe',
       email: 'johndoe@zumub.com',
-      username: 'admin',
+      username: 'johndoe',
       admin: 1,
       password: defaultPassword,
     },
