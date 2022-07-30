@@ -3,6 +3,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import * as bcrypt from 'bcryptjs';
 import * as dotenv from 'dotenv';
+import { RedocModule, RedocOptions } from 'nestjs-redoc';
 
 dotenv.config();
 
@@ -19,17 +20,21 @@ async function bootstrap() {
   }
 
   const app = await NestFactory.create(AppModule);
-  const appPort = process.env.SERVER_PORT ?? 3000;
+  const appPort = process.env.APP_PORT ?? 3000;
+
   const apiVersion = process.env.API_VERSION ?? '0.0.1';
+  const apiTitle = process.env.API_TITLE;
+  const apiDescription = process.env.API_DESCRIPTION;
 
   const isntProd = !process.env.ENVIRONMENT?.includes('prod');
 
-  const docs = process.env.SWAGGER_PATH ?? 'docs';
+  const swaggerPath = process.env.SWAGGER_PATH ?? 'swagger';
+  const redocPath = process.env.REDOC_PATH ?? 'docs';
 
   if (isntProd) {
     const config = new DocumentBuilder()
-      .setTitle('Basic Nestjs API')
-      .setDescription('This is a prototype of a express api using yarn, typescript, nestjs, prisma and swagger')
+      .setTitle(apiTitle)
+      .setDescription(apiDescription)
       .setVersion(apiVersion)
       .addBearerAuth(
         {
@@ -55,17 +60,55 @@ async function bootstrap() {
           opB.get('path').localeCompare(opA.get('path')),
       },
     };
-    SwaggerModule.setup(docs, app, document, options);
+
+    const redocOptions: RedocOptions = {
+      title: apiTitle,
+      logo: {
+        url: process.env.API_LOGO_URL,
+        backgroundColor: '#F0F0F0',
+        altText: apiTitle,
+      },
+      sortPropsAlphabetically: true,
+      hideDownloadButton: false,
+      hideHostname: false,
+      auth: {
+        enabled: true,
+        user: process.env.DOC_USERNAME,
+        password: process.env.DOC_PASSWORD,
+      },
+      tagGroups: [
+        {
+          tags: ['Public'],
+          name: 'Accessed by anyone',
+        },
+        {
+          tags: ['Common'],
+          name: 'Accessed by logged users',
+        },
+        {
+          tags: ['Administrative'],
+          name: 'Accessed only by administrative users',
+        },
+      ],
+    };
+
+    if (swaggerPath) SwaggerModule.setup(swaggerPath, app, document, options);
+    if (redocPath)
+      await RedocModule.setup(redocPath, app as any, document, redocOptions);
   }
 
   await app.listen(appPort, () => {
     if (isntProd) {
       // tslint:disable-next-line: no-console
-      console.log(`\nBasic API (v${apiVersion})`);
+      console.log(`\n${apiTitle} (v${apiVersion})`);
       // tslint:disable-next-line: no-console
-      console.log(`API URL: http://localhost:${appPort}`);
+      console.log(`API root: http://localhost:${appPort}`);
       // tslint:disable-next-line: no-console
-      console.log(`Swagger: http://localhost:${appPort}/${docs}`);
+      if (swaggerPath)
+        console.log(`Swagger: http://localhost:${appPort}/${swaggerPath}`);
+
+      if (redocPath)
+        console.log(`Documentation: http://localhost:${appPort}/${redocPath}`);
     }
   });
 }

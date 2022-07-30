@@ -5,12 +5,13 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { ApiTag } from 'src/shared/enums/api-tags.enum';
 import { PublicUserDTO } from 'src/users/dto/public-user.dto';
 import { UpdateUserDTO } from 'src/users/dto/update-user.dto';
 import { UsersService } from 'src/users/users.service';
 
 @Controller('/')
-@ApiTags('Common')
+@ApiTags(ApiTag.COMMON)
 @ApiBearerAuth('accessToken')
 export class CommonUsersController {
   constructor(private usersService: UsersService) {}

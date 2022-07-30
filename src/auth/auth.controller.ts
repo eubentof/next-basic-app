@@ -11,9 +11,10 @@ import { AuthService, Public } from './auth.service';
 import { AuthUserDTO } from './dto/auth-user.dto';
 import { AuthBodyDTO } from './dto/auth-body.dto';
 import { LocalAuthGuard } from './strategies/local/local-auth.guard';
+import { ApiTag } from 'src/shared/enums/api-tags.enum';
 
 @Controller('/auth')
-@ApiTags('Public')
+@ApiTags(ApiTag.PUBLIC)
 @UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
   constructor(private authService: AuthService) {}

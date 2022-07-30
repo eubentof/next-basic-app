@@ -14,6 +14,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { ApiTag } from 'src/shared/enums/api-tags.enum';
 import { Administrative } from 'src/shared/middlewares/administrative/administrative.decorator';
 import { Permissions } from 'src/shared/middlewares/administrative/permissions.enum';
 import { CreateUserDTO } from 'src/users/dto/create-user.dto';
@@ -21,15 +22,16 @@ import { ListUserQueryDTO } from 'src/users/dto/list-user.dto';
 import { PublicUserDTO } from 'src/users/dto/public-user.dto';
 import { UpdateUserDTO } from 'src/users/dto/update-user.dto';
 import { UsersService } from 'src/users/users.service';
+import { ApiPaginatedResponse } from 'src/utils/methods/paginationDecorator';
 
 @Controller('administrative/users')
-@ApiTags('Administrative')
+@ApiTags(ApiTag.ADMINISTRATIVE)
 @ApiBearerAuth('accessToken')
 export class AdministrativeUsersController {
   constructor(private usersService: UsersService) {}
   @Get()
   @Administrative(Permissions.USER_LIST)
-  @ApiCreatedResponse({ type: PublicUserDTO, isArray: true })
+  @ApiPaginatedResponse(PublicUserDTO)
   @ApiOperation({ summary: 'List all users paginated' })
   list(@Query() query: ListUserQueryDTO) {
     const { page, totalPerPage } = query;
